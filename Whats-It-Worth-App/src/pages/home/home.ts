@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { get } from 'http';
+import { Platform } from 'ionic-angular';
+
 
 @Component({
   selector: 'page-home',
@@ -10,23 +12,26 @@ import { get } from 'http';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, platform: Platform) {
+    this.platform = platform;
     this.readFiles();
     this.initializeItems();
   }
-
+  platform : Platform;
   searchQuery: string = '';
   items: string[];
+  fullItems: string[];
   stocks: string[];
 
   initializeItems() {
-    this.items = [
-      'Amsterdam',
-      'Bogota'
-    ];
+    console.log("Full:" + this.fullItems);
+    this.items = this.fullItems;
+    console.log("Items: " + this.items);
   }
 
   readFiles() {
+     var tempArray = new Array();
+     
     var serviceUrl = '../../assets/datasets/';
     get(serviceUrl + 'TSE_Securities.json', function (res) {
         var body = '';
@@ -34,9 +39,15 @@ export class HomePage {
          body += chunk;
       });
       res.on('end', function(){
-        console.log(body.toString());
+        var parsed = JSON.parse(body.toString());
+        for( var i =0; i<parsed.length; ++i){
+          tempArray.push(<String>parsed[i].Name);
+        }
+       
       });
     });
+     this.fullItems = new Array();
+        this.fullItems = tempArray;
   }
 
   getItems(ev: any) {
