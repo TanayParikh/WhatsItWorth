@@ -25,8 +25,6 @@ export class HomePage {
 
   // Stores stock objects
   tse: JSON[];
-  nyse: JSON[];
-  nasdaq: JSON[];
 
   stocks: string[];
 
@@ -35,10 +33,10 @@ export class HomePage {
       this.items = this.fullItems;
     }
     else {this.items= [];}
-    
+
   }
 
-  
+
 
   getStockData() {
     var serviceUrl = 'https://whatsitworth-c7bd9.firebaseio.com/';
@@ -65,7 +63,6 @@ export class HomePage {
         res.on('end', function(){
           var parsed = JSON.parse(body.toString());
           for( var i =0; i<parsed.length; ++i){
-
             tempArray.push(<string>parsed[i].Name);
           }
 
@@ -96,6 +93,34 @@ export class HomePage {
       this.items = this.items.filter((item) => {
         return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
+    }
+  }
+
+  getIconName(sector: string) {
+    switch (sector) {
+      case "Basic Industries":  return "cog";
+      case "Industrials": return "cog";
+      case "Capital Goods": return "cube";
+      case "Materials": return "cube";
+      case "n/a": return "square";
+      case "Miscellaneous": return "square";
+      case "Consumer Discretionary": return "basket";
+      case "Consumer Durables": return "cart";
+      case "Consumer Non-Durables": return "cart";
+      case "Consumer Services": return "build";
+      case "Consumer Staples": return "basket";
+      case "Energy": return "flash";
+      case "Finance": return "cash";
+      case "Financials": return "cash";
+      case "Cash and/or derivatives": return "cash";
+      case "Health Care": return "medkit";
+      case "Information Technology": return "phone-portrait";
+      case "Technology": return "phone-portrait";
+      case "Public Utilities": return "water";
+      case "Utilities": return "water";
+      case "Real Estate": return "home";
+      case "Telecommunications": return "call";
+      case "Transportation": return "car";
     }
   }
 
