@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
 
+import { get } from 'http';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -25,7 +27,10 @@ export class HomePage {
   }
 
   readFiles() {
-
+    var serviceUrl = './assets/datasets/';
+    get(serviceUrl + 'TSE_Securities.json', function (results) {
+        console.log(results);
+    });
   }
 
   getItems(ev: any) {
