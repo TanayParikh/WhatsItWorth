@@ -14,40 +14,62 @@ export class HomePage {
 
   constructor(public navCtrl: NavController, platform: Platform) {
     this.platform = platform;
-    this.readFiles();
+    this.getStockData();
     this.initializeItems();
   }
   platform : Platform;
   searchQuery: string = '';
   items: string[];
   fullItems: string[];
+
+  // Stores stock objects
+  tse: JSON[];
+  nyse: JSON[];
+  nasdaq: JSON[];
+
   stocks: string[];
 
   initializeItems() {
-    console.log("Full:" + this.fullItems);
     this.items = this.fullItems;
-    console.log("Items: " + this.items);
   }
 
-  readFiles() {
-     var tempArray = new Array();
-     
-    var serviceUrl = '../../assets/datasets/';
-    get(serviceUrl + 'TSE_Securities.json', function (res) {
+  getStockData() {
+    var serviceUrl = 'https://whatsitworth-c7bd9.firebaseio.com/';
+
+    let exchanges: Array<string> = ["tse", "nasdaq", "nyse"];
+
+    this.fullItems = new Array();
+    var tempArray: string[];
+    tempArray = new Array();
+
+    for (var j = 0; j < exchanges.length; ++j) {
+
+
+      get(serviceUrl + 'securities/' + j + '/' + exchanges[j] +'.json', function (res) {
+
+
+
         var body = '';
-      res.on('data', function(chunk){
-         body += chunk;
+
+        res.on('data', function(chunk){
+           body += chunk;
+        });
+
+        res.on('end', function(){
+          var parsed = JSON.parse(body.toString());
+          for( var i =0; i<parsed.length; ++i){
+
+            tempArray.push(<string>parsed[i].Name);
+          }
+
+
+
+
+        });
       });
-      res.on('end', function(){
-        var parsed = JSON.parse(body.toString());
-        for( var i =0; i<parsed.length; ++i){
-          tempArray.push(<String>parsed[i].Name);
-        }
-       
-      });
-    });
-     this.fullItems = new Array();
-        this.fullItems = tempArray;
+
+      this.fullItems= tempArray;
+    }
   }
 
   getItems(ev: any) {
@@ -82,4 +104,3 @@ export class HomePage {
 }
 
 declare function require(path: string): any;
-
