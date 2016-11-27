@@ -27,9 +27,15 @@ export class HomePage {
   }
 
   readFiles() {
-    var serviceUrl = './assets/datasets/';
-    get(serviceUrl + 'TSE_Securities.json', function (results) {
-        console.log(results);
+    var serviceUrl = '../../assets/datasets/';
+    get(serviceUrl + 'TSE_Securities.json', function (res) {
+        var body = '';
+      res.on('data', function(chunk){
+         body += chunk;
+      });
+      res.on('end', function(){
+        console.log(body.toString());
+      });
     });
   }
 
@@ -48,4 +54,21 @@ export class HomePage {
     }
   }
 
+  getCVS(symbol){
+    var pathAppend = '/d/quotes.csv?s=' + symbol + '&f=n';
+    var http = require('http');
+    http.get({hostname: 'download.finance.yahoo.com', path:pathAppend, agent: false }, (res) => {
+      var body = '';
+      res.on('data', function(chunk){
+         body += chunk;
+      });
+      res.on('end', function(){
+        alert(body.toString())
+      });
+    });
+  }
+
 }
+
+declare function require(path: string): any;
+
