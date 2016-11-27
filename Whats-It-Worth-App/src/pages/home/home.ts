@@ -21,6 +21,7 @@ export class HomePage {
   searchQuery: string = '';
   items: string[];
   fullItems: string[];
+  search: boolean = false;
 
   // Stores stock objects
   tse: JSON[];
@@ -30,8 +31,14 @@ export class HomePage {
   stocks: string[];
 
   initializeItems() {
-    this.items = this.fullItems;
+    if(this.search){
+      this.items = this.fullItems;
+    }
+    else {this.items= [];}
+    
   }
+
+  
 
   getStockData() {
     var serviceUrl = 'https://whatsitworth-c7bd9.firebaseio.com/';
@@ -73,6 +80,11 @@ export class HomePage {
   }
 
   getItems(ev: any) {
+    if(ev.target.value.length >= 3){
+      this.search = true;
+    }
+    else{ this.search = false;
+    }
     // Reset items back to all of the items
     this.initializeItems();
 
@@ -87,8 +99,8 @@ export class HomePage {
     }
   }
 
-  getCVS(symbol){
-    var pathAppend = '/d/quotes.csv?s=' + symbol + '&f=n';
+  getStockInformation(symbol){
+    var pathAppend = '/d/quotes.csv?s=' + symbol + '&f=j1j3l1';
     var http = require('http');
     http.get({hostname: 'download.finance.yahoo.com', path:pathAppend, agent: false }, (res) => {
       var body = '';
@@ -100,6 +112,7 @@ export class HomePage {
       });
     });
   }
+
 
 }
 
