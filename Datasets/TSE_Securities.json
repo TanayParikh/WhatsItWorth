@@ -1,4 +1,5 @@
-[{"Symbol":"RY","Name":"ROYAL BANK OF CANADA","Sector":"Financials","Summary Quote":"http://finance.yahoo.com/quote/RY.TO"},
+{"tse":[
+{"Symbol":"RY","Name":"ROYAL BANK OF CANADA","Sector":"Financials","Summary Quote":"http://finance.yahoo.com/quote/RY.TO"},
 {"Symbol":"TD","Name":"TORONTO DOMINION","Sector":"Financials","Summary Quote":"http://finance.yahoo.com/quote/TD.TO"},
 {"Symbol":"BNS","Name":"BANK OF NOVA SCOTIA","Sector":"Financials","Summary Quote":"http://finance.yahoo.com/quote/BNS.TO"},
 {"Symbol":"SU","Name":"SUNCOR ENERGY INC.","Sector":"Energy","Summary Quote":"http://finance.yahoo.com/quote/SU.TO"},
@@ -246,4 +247,4 @@
 {"Symbol":"CMG","Name":"COMPUTER MODEL LTD","Sector":"Information Technology","Summary Quote":"http://finance.yahoo.com/quote/CMG.TO"},
 {"Symbol":"SGY","Name":"SURGE ENERGY INC.","Sector":"Energy","Summary Quote":"http://finance.yahoo.com/quote/SGY.TO"},
 {"Symbol":"IT","Name":"INTERTAIN GROUP LTD","Sector":"Consumer Discretionary","Summary Quote":"http://finance.yahoo.com/quote/IT.TO"},
-{"Symbol":"YRI.RT","Name":"YAMANA GOLD RIGHTS EXP DEC INC","Sector":"Materials","Summary Quote":"http://finance.yahoo.com/quote/YRI.RT.TO"}]
+{"Symbol":"YRI.RT","Name":"YAMANA GOLD RIGHTS EXP DEC INC","Sector":"Materials","Summary Quote":"http://finance.yahoo.com/quote/YRI.RT.TO"}]}

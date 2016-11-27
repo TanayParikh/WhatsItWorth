@@ -1,4 +1,5 @@
-[{"Symbol":"DDD","Name":"3D Systems Corporation","Sector":"Technology","Industry":"Computer Software: Prepackaged Software","Summary Quote":"http://www.nasdaq.com/symbol/ddd"},
+{"nyse":[
+{"Symbol":"DDD","Name":"3D Systems Corporation","Sector":"Technology","Industry":"Computer Software: Prepackaged Software","Summary Quote":"http://www.nasdaq.com/symbol/ddd"},
 {"Symbol":"MMM","Name":"3M Company","Sector":"Health Care","Industry":"Medical/Dental Instruments","Summary Quote":"http://www.nasdaq.com/symbol/mmm"},
 {"Symbol":"WBAI","Name":"500.com Limited","Sector":"Consumer Services","Industry":"Services-Misc. Amusement & Recreation","Summary Quote":"http://www.nasdaq.com/symbol/wbai"},
 {"Symbol":"WUBA","Name":"58.com Inc.","Sector":"Technology","Industry":"Computer Software: Programming, Data Processing","Summary Quote":"http://www.nasdaq.com/symbol/wuba"},
@@ -3167,4 +3168,4 @@
 {"Symbol":"ZOES","Name":"Zoe&#39;s Kitchen, Inc.","Sector":"Consumer Services","Industry":"Restaurants","Summary Quote":"http://www.nasdaq.com/symbol/zoes"},
 {"Symbol":"ZTS","Name":"Zoetis Inc.","Sector":"Health Care","Industry":"Major Pharmaceuticals","Summary Quote":"http://www.nasdaq.com/symbol/zts"},
 {"Symbol":"ZTO","Name":"ZTO Express (Cayman) Inc.","Sector":"Transportation","Industry":"Trucking Freight/Courier Services","Summary Quote":"http://www.nasdaq.com/symbol/zto"},
-{"Symbol":"ZF","Name":"Zweig Fund, Inc. (The)","Sector":"n/a","Industry":"n/a","Summary Quote":"http://www.nasdaq.com/symbol/zf"}]
+{"Symbol":"ZF","Name":"Zweig Fund, Inc. (The)","Sector":"n/a","Industry":"n/a","Summary Quote":"http://www.nasdaq.com/symbol/zf"}]}

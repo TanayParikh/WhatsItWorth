@@ -1,4 +1,5 @@
-[{"Symbol":"PIH","Name":"1347 Property Insurance Holdings, Inc.","Sector":"Finance","Industry":"Property-Casualty Insurers","Summary Quote":"http://www.nasdaq.com/symbol/pih"},
+{"nasdaq":[
+{"Symbol":"PIH","Name":"1347 Property Insurance Holdings, Inc.","Sector":"Finance","Industry":"Property-Casualty Insurers","Summary Quote":"http://www.nasdaq.com/symbol/pih"},
 {"Symbol":"FLWS","Name":"1-800 FLOWERS.COM, Inc.","Sector":"Consumer Services","Industry":"Other Specialty Stores","Summary Quote":"http://www.nasdaq.com/symbol/flws"},
 {"Symbol":"FCCY","Name":"1st Constitution Bancorp (NJ)","Sector":"Finance","Industry":"Savings Institutions","Summary Quote":"http://www.nasdaq.com/symbol/fccy"},
 {"Symbol":"SRCE","Name":"1st Source Corporation","Sector":"Finance","Industry":"Major Banks","Summary Quote":"http://www.nasdaq.com/symbol/srce"},
@@ -3180,4 +3181,4 @@
 {"Symbol":"ZSAN","Name":"Zosano Pharma Corporation","Sector":"Health Care","Industry":"Major Pharmaceuticals","Summary Quote":"http://www.nasdaq.com/symbol/zsan"},
 {"Symbol":"ZUMZ","Name":"Zumiez Inc.","Sector":"Consumer Services","Industry":"Clothing/Shoe/Accessory Stores","Summary Quote":"http://www.nasdaq.com/symbol/zumz"},
 {"Symbol":"ZYNE","Name":"Zynerba Pharmaceuticals, Inc.","Sector":"Health Care","Industry":"Major Pharmaceuticals","Summary Quote":"http://www.nasdaq.com/symbol/zyne"},
-{"Symbol":"ZNGA","Name":"Zynga Inc.","Sector":"Technology","Industry":"EDP Services","Summary Quote":"http://www.nasdaq.com/symbol/znga"}]
+{"Symbol":"ZNGA","Name":"Zynga Inc.","Sector":"Technology","Industry":"EDP Services","Summary Quote":"http://www.nasdaq.com/symbol/znga"}]}
