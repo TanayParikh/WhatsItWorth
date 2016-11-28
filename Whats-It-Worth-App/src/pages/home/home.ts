@@ -5,7 +5,6 @@ import { NavController, LoadingController } from 'ionic-angular';
 import { get } from 'http';
 import { Platform } from 'ionic-angular';
 
-
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -23,7 +22,7 @@ export class HomePage {
     });
 
     loader.present().then(() => {
-      this.getStockData();
+      this.tempTest = this.getStockData();
       this.initializeItems();
       loader.dismiss();
     });
@@ -31,27 +30,40 @@ export class HomePage {
 
   platform : Platform;
   searchQuery: string = '';
-  items: string[];
-  fullItems: string[];
+  items: any;
   search: boolean = false;
+  stocks: any = [{sector: "none", name:"", sym:""}];
+   //Storage for the objects to be searched
+  tempTest: any = [{sector: "none", name:"", sym:""}];
+  //Used to store the initial stocks coming from the server, if stocks is used
+  //Causes crash because async.
+  tempFix: boolean = false;
+  //Boolean to set sectors to the icon name for that sector, idk man tried to 
+  //do this somewhere else but im tired and nothing else was working.
 
-  stocks: string[];
 
   initializeItems() {
-    this.items = (this.search) ? this.fullItems : [];
+    //Get stock icons once async is finished only replace them once
+    if((this.tempTest.length >1 && !this.tempFix)){
+      for(var i =0; i<this.tempTest.length; i++){
+      var stock = this.tempTest[i];
+      stock.sector = this.getIconName(stock.sector);
+      this.tempTest[i] = stock;
+    }
+      this.tempFix = true;
+    }
+
+    
+    this.stocks = (this.search) ? this.tempTest : [{sector: "none", name:"", sym:""}];
   }
 
   getStockData() {
     var serviceUrl = 'https://whatsitworth-c7bd9.firebaseio.com/';
 
     let exchanges: Array<string> = ["tse", "nasdaq", "nyse"];
-
-    this.fullItems = new Array();
-    var tempArray: string[];
-    tempArray = new Array();
-
+    var tempArray = [];
     for (var j = 0; j < exchanges.length; ++j) {
-      get(serviceUrl + 'securities/' + j + '/' + exchanges[j] +'.json', function (res) {
+      get({async: false, path: serviceUrl + 'securities/' + j + '/' + exchanges[j] +'.json'}, function (res) {
         var body = '';
 
         res.on('data', function(chunk){
@@ -61,13 +73,15 @@ export class HomePage {
         res.on('end', function(){
           var parsed = JSON.parse(body.toString());
           for( var i =0; i<parsed.length; ++i){
-            tempArray.push(<string>parsed[i].Name);
+            tempArray.push({name : <string>parsed[i].Name ,sym: <string>parsed[i].Symbol, sector: <string>parsed[i].Sector});
+
           }
         });
       });
-
-      this.fullItems= tempArray;
     }
+    
+    return tempArray;
+   //this.stocks = tempArray;
   }
 
   getItems(ev: any) {
@@ -78,11 +92,12 @@ export class HomePage {
 
     // set val to the value of the searchbar
     let val = ev.target.value;
-
+    
     // if the value is an empty string don't filter the items
     if (val && val.trim() != '') {
-      this.items = this.items.filter((item) => {
-        return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      this.stocks = this.stocks.filter((item) => {
+        console.log()
+        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
   }

@@ -15,9 +15,9 @@
 
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
 <ion-list>
-  <ion-item *ngFor="let item of items">
-    <ion-icon name="cash" item-left></ion-icon>
-      {{ item }}
+  <ion-item *ngFor="let stock of stocks">
+    <ion-icon name="{{stock.sector}}" item-left></ion-icon>
+      {{ stock.name }}
   </ion-item>
 </ion-list>
 
