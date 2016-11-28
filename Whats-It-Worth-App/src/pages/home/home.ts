@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NavController, LoadingController } from 'ionic-angular';
 
 import { get } from 'http';
@@ -11,7 +10,6 @@ import { Platform } from 'ionic-angular';
 })
 
 export class HomePage {
-
   constructor(public navCtrl: NavController,
     platform: Platform,
     private loadingController: LoadingController) {
@@ -22,8 +20,14 @@ export class HomePage {
     });
 
     loader.present().then(() => {
-      this.tempTest = this.getStockData();
+      if(!window.localStorage.getItem('stock-data')){
+        this.tempTest = this.getStockData();
       this.initializeItems();
+      }
+      else{
+        this.tempTest = JSON.parse(window.localStorage.getItem('stock-data'));
+        this.tempFix = true;
+      }
       loader.dismiss();
     });
   }
@@ -33,31 +37,26 @@ export class HomePage {
   items: any;
   search: boolean = false;
   stocks: any = [{sector: "none", name:"", sym:""}];
-   //Storage for the objects to be searched
   tempTest: any = [{sector: "none", name:"", sym:""}];
-  //Used to store the initial stocks coming from the server, if stocks is used
-  //Causes crash because async.
   tempFix: boolean = false;
-  //Boolean to set sectors to the icon name for that sector, idk man tried to 
-  //do this somewhere else but im tired and nothing else was working.
-
 
   initializeItems() {
-    //Get stock icons once async is finished only replace them once
     if((this.tempTest.length >1 && !this.tempFix)){
-      for(var i =0; i<this.tempTest.length; i++){
+      for(var i =0; i< this.tempTest.length; i++){
       var stock = this.tempTest[i];
       stock.sector = this.getIconName(stock.sector);
       this.tempTest[i] = stock;
-    }
+      
+     
+      } 
       this.tempFix = true;
+       window.localStorage.setItem('stock-data',JSON.stringify(this.tempTest));
     }
-
-    
     this.stocks = (this.search) ? this.tempTest : [{sector: "none", name:"", sym:""}];
   }
 
   getStockData() {
+    //var app = angular.module('app',['ionic']);
     var serviceUrl = 'https://whatsitworth-c7bd9.firebaseio.com/';
 
     let exchanges: Array<string> = ["tse", "nasdaq", "nyse"];
@@ -78,8 +77,8 @@ export class HomePage {
           }
         });
       });
+      
     }
-    
     return tempArray;
    //this.stocks = tempArray;
   }
