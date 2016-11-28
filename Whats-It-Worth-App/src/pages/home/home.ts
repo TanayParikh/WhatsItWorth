@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 
 import { get } from 'http';
 import { Platform } from 'ionic-angular';
@@ -10,33 +10,36 @@ import { Platform } from 'ionic-angular';
   selector: 'page-home',
   templateUrl: 'home.html'
 })
+
 export class HomePage {
 
-  constructor(public navCtrl: NavController, platform: Platform) {
+  constructor(public navCtrl: NavController,
+    platform: Platform,
+    private loadingController: LoadingController) {
     this.platform = platform;
-    this.getStockData();
-    this.initializeItems();
+
+    let loader = this.loadingController.create({
+      content: 'Fetching Stocks'
+    });
+
+    loader.present().then(() => {
+      this.getStockData();
+      this.initializeItems();
+      loader.dismiss();
+    });
   }
+
   platform : Platform;
   searchQuery: string = '';
   items: string[];
   fullItems: string[];
   search: boolean = false;
 
-  // Stores stock objects
-  tse: JSON[];
-
   stocks: string[];
 
   initializeItems() {
-    if(this.search){
-      this.items = this.fullItems;
-    }
-    else {this.items= [];}
-
+    this.items = (this.search) ? this.fullItems : [];
   }
-
-
 
   getStockData() {
     var serviceUrl = 'https://whatsitworth-c7bd9.firebaseio.com/';
@@ -48,12 +51,7 @@ export class HomePage {
     tempArray = new Array();
 
     for (var j = 0; j < exchanges.length; ++j) {
-
-
       get(serviceUrl + 'securities/' + j + '/' + exchanges[j] +'.json', function (res) {
-
-
-
         var body = '';
 
         res.on('data', function(chunk){
@@ -65,10 +63,6 @@ export class HomePage {
           for( var i =0; i<parsed.length; ++i){
             tempArray.push(<string>parsed[i].Name);
           }
-
-
-
-
         });
       });
 
@@ -77,11 +71,8 @@ export class HomePage {
   }
 
   getItems(ev: any) {
-    if(ev.target.value.length >= 3){
-      this.search = true;
-    }
-    else{ this.search = false;
-    }
+    this.search = (ev.target.value.length >= 3);
+
     // Reset items back to all of the items
     this.initializeItems();
 
@@ -137,8 +128,6 @@ export class HomePage {
       });
     });
   }
-
-
 }
 
 declare function require(path: string): any;
