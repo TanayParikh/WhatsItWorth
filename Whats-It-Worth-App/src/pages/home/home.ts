@@ -139,20 +139,6 @@ export class HomePage {
       stock: stock
     });
   }
-
-  getStockInformation(symbol){
-    var pathAppend = '/d/quotes.csv?s=' + symbol + '&f=j1j3l1';
-    var http = require('http');
-    http.get({hostname: 'download.finance.yahoo.com', path:pathAppend, agent: false }, (res) => {
-      var body = '';
-      res.on('data', function(chunk){
-         body += chunk;
-      });
-      res.on('end', function(){
-        alert(body.toString())
-      });
-    });
-  }
 }
 
 declare function require(path: string): any;
