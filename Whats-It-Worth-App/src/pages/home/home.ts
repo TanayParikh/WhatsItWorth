@@ -4,6 +4,8 @@ import { NavController, LoadingController } from 'ionic-angular';
 import { get } from 'http';
 import { Platform } from 'ionic-angular';
 
+import { StockPage } from '../stock/stock';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -14,12 +16,14 @@ export class HomePage {
     platform: Platform,
     private loadingController: LoadingController) {
     this.platform = platform;
+    this.navController = navCtrl;
 
     let loader = this.loadingController.create({
       content: 'Fetching Stocks'
     });
 
     loader.present().then(() => {
+      // window.localStorage.clear(); // Clears existing cache
       if(!window.localStorage.getItem('stock-data')){
         this.tempTest = this.getStockData();
       this.initializeItems();
@@ -33,6 +37,7 @@ export class HomePage {
   }
 
   platform : Platform;
+  navController : NavController;
   searchQuery: string = '';
   items: any;
   search: boolean = false;
@@ -46,9 +51,9 @@ export class HomePage {
       var stock = this.tempTest[i];
       stock.sector = this.getIconName(stock.sector);
       this.tempTest[i] = stock;
-      
-     
-      } 
+
+
+      }
       this.tempFix = true;
        window.localStorage.setItem('stock-data',JSON.stringify(this.tempTest));
     }
@@ -72,12 +77,12 @@ export class HomePage {
         res.on('end', function(){
           var parsed = JSON.parse(body.toString());
           for( var i =0; i<parsed.length; ++i){
-            tempArray.push({name : <string>parsed[i].Name ,sym: <string>parsed[i].Symbol, sector: <string>parsed[i].Sector});
+            tempArray.push({name : <string>parsed[i].Name ,symbol: <string>parsed[i].Symbol, sector: <string>parsed[i].Sector});
 
           }
         });
       });
-      
+
     }
     return tempArray;
    //this.stocks = tempArray;
@@ -91,7 +96,7 @@ export class HomePage {
 
     // set val to the value of the searchbar
     let val = ev.target.value;
-    
+
     // if the value is an empty string don't filter the items
     if (val && val.trim() != '') {
       this.stocks = this.stocks.filter((item) => {
@@ -127,6 +132,12 @@ export class HomePage {
       case "Telecommunications": return "call";
       case "Transportation": return "car";
     }
+  }
+
+  stockSelected(stock) {
+    this.navCtrl.push(StockPage, {
+      stock: stock
+    });
   }
 
   getStockInformation(symbol){
