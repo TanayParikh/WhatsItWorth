@@ -9,8 +9,10 @@ import { get } from 'http';
 })
 export class StockPage {
   stock: any;
+  stockPrice : number = 0;
   products: any[];
-  product: JSON;
+  product = {name: "", plural_name: "", category: "", price: 0, img: ""};
+  productGenerated = {name: "", img_link:"", quantity:0};
 
   constructor(public navCtrl: NavController, private navParams: NavParams) {
     this.stock = navParams.data.stock;
@@ -68,7 +70,7 @@ export class StockPage {
       return;
 
     }
-    
+
     var count : number;
 
     while (true) {
@@ -83,6 +85,13 @@ export class StockPage {
 
       if (++count > 50) break;
     }
+
+    this.stockPrice = price;
+    this.productGenerated.quantity = Math.floor(this.stockPrice / this.product.price);
+
+    this.productGenerated.name = (this.productGenerated.quantity > 1) ? this.product.plural_name : this.product.name;
+
+    this.productGenerated.img_link = 'http://webexposure.ca/WhatsItWorth/api/product_images/' + this.product.img;
 
     console.log(this.product);
   }

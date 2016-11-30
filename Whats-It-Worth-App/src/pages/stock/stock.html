@@ -14,5 +14,17 @@
 
 
 <ion-content padding>
+  <ion-card>
+    <img src="{{ productGenerated.img_link }}"/>
+    <ion-card-content>
+      <ion-card-title>
+        You could buy {{ productGenerated.quantity }} {{ productGenerated.name }}
+        </ion-card-title>
+      <p>
+        A share of {{ stock.name }} is $ {{ stockPrice }}. One {{ product.name }} is ${{ product.price }}!
+      </p>
+    </ion-card-content>
+  </ion-card>
+
 
 </ion-content>
