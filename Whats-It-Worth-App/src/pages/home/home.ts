@@ -41,23 +41,21 @@ export class HomePage {
   searchQuery: string = '';
   items: any;
   search: boolean = false;
-  stocks: any = [{sector: "none", name:"", sym:""}];
-  tempTest: any = [{sector: "none", name:"", sym:""}];
+  stocks: any = [{sector: "none", name:"", sym:"", exchange:""}];
+  tempTest: any = [{sector: "none", name:"", sym:"", exchange:""}];
   tempFix: boolean = false;
 
   initializeItems() {
     if((this.tempTest.length >1 && !this.tempFix)){
       for(var i =0; i< this.tempTest.length; i++){
-      var stock = this.tempTest[i];
-      stock.sector = this.getIconName(stock.sector);
-      this.tempTest[i] = stock;
-
-
+        var stock = this.tempTest[i];
+        stock.sector = this.getIconName(stock.sector);
+        this.tempTest[i] = stock;
       }
       this.tempFix = true;
        window.localStorage.setItem('stock-data',JSON.stringify(this.tempTest));
     }
-    this.stocks = (this.search) ? this.tempTest : [{sector: "none", name:"", sym:""}];
+    this.stocks = (this.search) ? this.tempTest : [{sector: "none", name:"", sym:"", exchange:""}];
   }
 
   getStockData() {
@@ -67,18 +65,20 @@ export class HomePage {
     let exchanges: Array<string> = ["tse", "nasdaq", "nyse"];
     var tempArray = [];
     for (var j = 0; j < exchanges.length; ++j) {
+      const exchange : string = exchanges[j];
       get({async: false, path: serviceUrl + 'securities/' + j + '/' + exchanges[j] +'.json'}, function (res) {
         var body = '';
+        const exc = exchange;
 
         res.on('data', function(chunk){
            body += chunk;
         });
 
         res.on('end', function(){
+
           var parsed = JSON.parse(body.toString());
           for( var i =0; i<parsed.length; ++i){
-            tempArray.push({name : <string>parsed[i].Name ,symbol: <string>parsed[i].Symbol, sector: <string>parsed[i].Sector});
-
+            tempArray.push({name : <string>parsed[i].Name ,symbol: <string>parsed[i].Symbol, sector: <string>parsed[i].Sector, exchange: exc});
           }
         });
       });
