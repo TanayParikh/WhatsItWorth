@@ -28,11 +28,12 @@ export class StockPage {
   }
 
   setProducts() {
-    if(!window.localStorage.getItem('products')){
+    /*if(!window.localStorage.getItem('products')){
       this.getAllProducts();
     }
 
-    this.products = JSON.parse(window.localStorage.getItem('products'));
+    this.products = JSON.parse(window.localStorage.getItem('products'));*/
+    this.getAllProducts();
     console.log("THE PRODUCTS ARE:");
     console.log(this.products);
   }
@@ -98,6 +99,7 @@ export class StockPage {
 
   getAllProducts() {
     const baseURL = 'http://www.webexposure.ca/WhatsItWorth/api/api.php/products';
+    var that = this;
 
     get(baseURL, function (res) {
       var body = '';
@@ -119,7 +121,8 @@ export class StockPage {
             category: product[3], price: product[5], img: product[6]});
         });
 
-        window.localStorage.setItem('products',JSON.stringify(products));
+        that.products = products;
+        //window.localStorage.setItem('products',JSON.stringify(products));
       });
     });
   }
