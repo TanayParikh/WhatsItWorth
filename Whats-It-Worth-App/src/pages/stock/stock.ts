@@ -23,17 +23,13 @@ export class StockPage {
     this.getStockInformation(this.stock)
   }
 
-  ionViewDidLoad() {
-    console.log('Hello StockPage Page');
-  }
-
   setProducts() {
-    if(!window.localStorage.getItem('products')){
-      this.getAllProducts();
-    }
 
-    this.products = JSON.parse(window.localStorage.getItem('products'));
-    console.log("THE PRODUCTS ARE:");
+    this.products = (window.localStorage.getItem('products'))
+                        ? JSON.parse(window.localStorage.getItem('products'))
+                        : this.getAllProducts();
+
+    console.log("The products are:");
     console.log(this.products);
   }
 
@@ -45,8 +41,6 @@ export class StockPage {
     console.log(stock.exchange);
     console.log(queryURI);
 
-    var that = this;
-
     get({path: queryURI}, function (res) {
       var body = '';
 
@@ -55,13 +49,12 @@ export class StockPage {
       });
 
       // Parses response and calls for processing
-      res.on('end', function(){
-
+      res.on('end', function() {
         var parsed = JSON.parse(body.toString());
         console.log(parsed);
-        that.displayComparison(<number>parsed.query.results.quote.LastTradePriceOnly);
-      });
-    });
+        this.displayComparison(<number>parsed.query.results.quote.LastTradePriceOnly);
+      }.bind(this));
+    }.bind(this));
   }
 
   displayComparison(price: any) {
@@ -74,7 +67,7 @@ export class StockPage {
     }
 
     var count = 0;
-    console.log(this.products);
+
     while (count < 50) {
       var index = Math.floor((Math.random() * this.products.length));
       //Convert price for stock and price of product to numbers for proper comparion
@@ -124,8 +117,9 @@ export class StockPage {
             category: product[3], price: product[5], img: product[6]});
         });
 
-        that.products = products;
-        //window.localStorage.setItem('products',JSON.stringify(products));
+
+        window.localStorage.setItem('products',JSON.stringify(products));
+        return products;
       });
     });
   }
