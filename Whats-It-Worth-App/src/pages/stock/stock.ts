@@ -28,12 +28,11 @@ export class StockPage {
   }
 
   setProducts() {
-    /*if(!window.localStorage.getItem('products')){
+    if(!window.localStorage.getItem('products')){
       this.getAllProducts();
     }
 
-    this.products = JSON.parse(window.localStorage.getItem('products'));*/
-    this.getAllProducts();
+    this.products = JSON.parse(window.localStorage.getItem('products'));
     console.log("THE PRODUCTS ARE:");
     console.log(this.products);
   }
@@ -57,7 +56,9 @@ export class StockPage {
 
       // Parses response and calls for processing
       res.on('end', function(){
+
         var parsed = JSON.parse(body.toString());
+        console.log(parsed);
         that.displayComparison(<number>parsed.query.results.quote.LastTradePriceOnly);
       });
     });
@@ -72,19 +73,21 @@ export class StockPage {
 
     }
 
-    var count : number;
-
-    while (true) {
+    var count = 0;
+    console.log(this.products);
+    while (count < 50) {
       var index = Math.floor((Math.random() * this.products.length));
+      //Convert price for stock and price of product to numbers for proper comparion
+      var numPrice = Number(price);
+      var numProduct = Number(this.products[index].price);
+      console.log("scanning: " + index + " " + this.products[index].price + " " + price);
 
-      console.log("scanning: " + index);
-
-      if (this.products[index].price < price) {
+      if (numProduct < numPrice) {
         this.product = this.products[index];
         break;
       }
 
-      if (++count > 50) break;
+      count++;
     }
 
     this.stockPrice = price;

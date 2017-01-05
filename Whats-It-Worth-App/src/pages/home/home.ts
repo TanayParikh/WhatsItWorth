@@ -24,17 +24,42 @@ export class HomePage {
 
     loader.present().then(() => {
       // window.localStorage.clear(); // Clears existing cache
-      if(!window.localStorage.getItem('stock-data')){
+      if(!window.localStorage.getItem('stock-data-exp')){
+        var expDate = new Date();
+        expDate.setDate(expDate.getDate() + 7);
+        window.localStorage.setItem('stock-data-exp',expDate.toString());
+        console.log(expDate.toString());
         this.tempTest = this.getStockData();
-      this.initializeItems();
+        this.initializeItems();     
       }
       else{
-        this.tempTest = JSON.parse(window.localStorage.getItem('stock-data'));
-        this.tempFix = true;
-      }
-      loader.dismiss();
+        var date = new Date();
+        var expDate = new Date(window.localStorage.getItem('stock-data-exp'));
+        if(Number(date.getFullYear()) > Number(expDate.getFullYear()) ||
+            Number(date.getMonth()+1) > Number(expDate.getMonth()+1) ||
+            Number(date.getDate()) >= Number(expDate.getDate() + 7)){
+              expDate.setDate(date.getDate() + 7);
+              window.localStorage.setItem('stock-data-exp', JSON.stringify(expDate));
+              this.tempTest = this.getStockData();
+              this.initializeItems();
+            }
+          else{
+            if(!window.localStorage.getItem('stock-data')){
+              this.tempTest = this.getStockData();
+              this.initializeItems();
+            }
+            else{
+              this.tempTest = JSON.parse(window.localStorage.getItem('stock-data'));
+              this.tempFix = true;
+            }
+            
+            } 
+              
+    }
+    loader.dismiss();
     });
-  }
+      }
+  
 
   platform : Platform;
   navController : NavController;
@@ -47,7 +72,7 @@ export class HomePage {
 
   initializeItems() {
     if((this.tempTest.length >1 && !this.tempFix)){
-      for(var i =0; i< this.tempTest.length; i++){
+      for(var i =0; i< this.tempTest.length ; i++){
         var stock = this.tempTest[i];
         stock.sector = this.getIconName(stock.sector);
         this.tempTest[i] = stock;
