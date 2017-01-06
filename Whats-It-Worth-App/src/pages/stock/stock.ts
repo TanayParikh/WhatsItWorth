@@ -13,22 +13,22 @@ export class StockPage {
   products: any[];
   product = {name: "", plural_name: "", category: "", price: 0, img: ""};
   productGenerated = {name: "", img_link:"", quantity:0};
-
   constructor(public navCtrl: NavController, private navParams: NavParams) {
     this.stock = navParams.data.stock;
 
     console.log(this.stock);
-
+    
     this.setProducts();
-    this.getStockInformation(this.stock)
   }
 
   setProducts() {
-
-    this.products = (window.localStorage.getItem('products'))
-                        ? JSON.parse(window.localStorage.getItem('products'))
-                        : this.getAllProducts();
-
+    if(window.localStorage.getItem('products')){
+      this.products = JSON.parse(window.localStorage.getItem('products'));
+      this.getStockInformation(this.stock);
+    }
+    else{
+      this.getAllProducts();
+    } 
     console.log("The products are:");
     console.log(this.products);
   }
@@ -41,7 +41,7 @@ export class StockPage {
     console.log(stock.exchange);
     console.log(queryURI);
 
-    get({path: queryURI}, function (res) {
+    get({async: false, path: queryURI}, function (res) {
       var body = '';
 
       res.on('data', function(chunk){
@@ -95,9 +95,9 @@ export class StockPage {
 
   getAllProducts() {
     const baseURL = 'http://www.webexposure.ca/WhatsItWorth/api/api.php/products';
-    var that = this;
-
-    get(baseURL, function (res) {
+    var referance = this;
+    var products = new Array();
+    get({async: false, path: baseURL}, function (res) {
       var body = '';
 
       res.on('data', function(chunk){
@@ -109,18 +109,17 @@ export class StockPage {
         var rawProducts = JSON.parse(body.toString()).products.records;
         console.log("Records: ");
         console.log(rawProducts);
-        //this.tempFix = true;
-        var products = new Array();
+        
 
         rawProducts.forEach(product => {
           products.push({name: product[1], plural_name: product[2],
             category: product[3], price: product[5], img: product[6]});
         });
-
-
         window.localStorage.setItem('products',JSON.stringify(products));
-        return products;
+        referance.products = products;
+        referance.getStockInformation(referance.stock);
       });
     });
+    
   }
 }
