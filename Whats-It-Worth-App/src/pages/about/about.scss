@@ -1,3 +1,12 @@
 page-about {
+  .wrapping-list .item-content, .wrapping-list .item {
+    overflow: initial;
+    white-space: initial;
+  }
+}
 
+
+.wrapping-list .item-content, .wrapping-list .item {
+    overflow: initial;
+    white-space: initial;
 }
