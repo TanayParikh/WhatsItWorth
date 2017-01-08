@@ -17,7 +17,7 @@ export class StockPage {
     this.stock = navParams.data.stock;
 
     console.log(this.stock);
-    
+
     this.setProducts();
   }
 
@@ -28,7 +28,7 @@ export class StockPage {
     }
     else{
       this.getAllProducts();
-    } 
+    }
     console.log("The products are:");
     console.log(this.products);
   }
@@ -51,19 +51,25 @@ export class StockPage {
       // Parses response and calls for processing
       res.on('end', function() {
         var parsed = JSON.parse(body.toString());
+        var price: number = <number>parsed.query.results.quote.LastTradePriceOnly;
+
+        console.log("Price data retireved: " + price);
         console.log(parsed);
-        this.displayComparison(<number>parsed.query.results.quote.LastTradePriceOnly);
+
+
+        if (!price && stock.symbol.includes('.')) {
+          stock.symbol = stock.symbol.replace('.', '-');
+        } else {
+          this.displayComparison(price);
+        }
       }.bind(this));
     }.bind(this));
   }
 
   displayComparison(price: any) {
-    //var product : JSON;
-
     if (!price) {
       alert("Sorry, we were unable to retrieve information for that stock at this time. Please try again.");
       return;
-
     }
 
     var count = 0;
@@ -85,11 +91,8 @@ export class StockPage {
 
     this.stockPrice = price;
     this.productGenerated.quantity = Math.floor(this.stockPrice / this.product.price);
-
     this.productGenerated.name = (this.productGenerated.quantity > 1) ? this.product.plural_name : this.product.name;
-
     this.productGenerated.img_link = 'http://webexposure.ca/WhatsItWorth/api/product_images/' + this.product.img;
-
     console.log(this.product);
   }
 
@@ -109,7 +112,7 @@ export class StockPage {
         var rawProducts = JSON.parse(body.toString()).products.records;
         console.log("Records: ");
         console.log(rawProducts);
-        
+
 
         rawProducts.forEach(product => {
           products.push({name: product[1], plural_name: product[2],
@@ -120,6 +123,6 @@ export class StockPage {
         referance.getStockInformation(referance.stock);
       });
     });
-    
+
   }
 }
