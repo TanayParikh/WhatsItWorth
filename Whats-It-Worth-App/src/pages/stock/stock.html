@@ -18,10 +18,11 @@
     <img src="{{ productGenerated.img_link }}"/>
     <ion-card-content>
       <ion-card-title>
-        You could buy {{ productGenerated.quantity }} {{ productGenerated.name }}
+        You could buy a share of {{ stock.name }} at the same cost as
+        {{ productGenerated.quantity }} {{ productGenerated.name }}
         </ion-card-title>
       <p>
-        A share of {{ stock.name }} is $ {{ stockPrice }}. One {{ product.name }} is ${{ product.price }}!
+        One {{ product.name }} is ${{ product.price }}. A share of {{ stock.name }} is ${{ stockPrice }}!
       </p>
     </ion-card-content>
   </ion-card>
