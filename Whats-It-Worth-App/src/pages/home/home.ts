@@ -35,9 +35,7 @@ export class HomePage {
       else{
         var date = new Date();
         var expDate = new Date(window.localStorage.getItem('stock-data-exp'));
-        if(Number(date.getFullYear()) > Number(expDate.getFullYear()) ||
-            Number(date.getMonth()+1) > Number(expDate.getMonth()+1) ||
-            Number(date.getDate()) >= Number(expDate.getDate() + 7)){
+        if(date > expDate){
               expDate.setDate(date.getDate() + 7);
               window.localStorage.setItem('stock-data-exp', JSON.stringify(expDate));
               this.tempTest = this.getStockData();
@@ -103,7 +101,9 @@ export class HomePage {
 
           var parsed = JSON.parse(body.toString());
           for( var i =0; i<parsed.length; ++i){
-            tempArray.push({name : <string>parsed[i].Name ,symbol: <string>parsed[i].Symbol, sector: <string>parsed[i].Sector, exchange: exc});
+            var fixedName = <String>parsed[i].Name;
+            fixedName = fixedName.replace("&#39;","'");
+            tempArray.push({name : fixedName,symbol: <string>parsed[i].Symbol, sector: <string>parsed[i].Sector, exchange: exc});
           }
         });
       });

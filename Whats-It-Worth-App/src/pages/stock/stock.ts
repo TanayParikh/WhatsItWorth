@@ -22,13 +22,30 @@ export class StockPage {
   }
 
   setProducts() {
-    if(window.localStorage.getItem('products')){
-      this.products = JSON.parse(window.localStorage.getItem('products'));
-      this.getStockInformation(this.stock);
+    if(window.localStorage.getItem('products-exp-date')){
+      var curDate = new Date();
+      var expDate = new Date(window.localStorage.getItem('products-exp-date'));
+      if(curDate > expDate){
+        expDate.setDate(curDate.getDate() + 7);
+        window.localStorage.setItem('products-exp-date',expDate.toString());
+        this.getAllProducts();
+      }
+      else if(window.localStorage.getItem('products')){
+        this.products = JSON.parse(window.localStorage.getItem('products'));
+        this.getStockInformation(this.stock);
+      }
+      else{
+        this.getAllProducts();
+      }
     }
     else{
+      var expDate = new Date();
+      expDate.setDate(expDate.getDate() + 7);
+      window.localStorage.setItem('products-exp-date',expDate.toString());
       this.getAllProducts();
     }
+
+    
     console.log("The products are:");
     console.log(this.products);
   }
