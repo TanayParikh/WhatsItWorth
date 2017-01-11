@@ -1,10 +1,10 @@
 # WhatsItWorth
 ##What's this app about?
-This app aims to demonstrate how much of a particular good you could purchase, using the proceeds from the sale of one share of stock, of a particular company.
+This app aims to demonstrate the affordability of investing. Type a name of a particular company, and the app shows the cost of a single share, in terms of everyday items, you may come across.
 
 
-##Why?!?
-The app was custom made for Terrible Hacks V in Waterloo, Canada. TBH we just wanted to try working with ionic.
+##Why?
+Get a new perspective on investing and get started on your journey today!
 
 
 ##How was it made?
