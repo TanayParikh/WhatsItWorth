@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.whatsitworthapp688471" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>Whats-It-Worth-App</name>
-  <description>An awesome Ionic/Cordova app.</description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
+  <name>What's It Worth?</name>
+  <description>What would it take to buy a share of stock?</description>
+  <author email="hi@whatsitworth" href="https://github.com/TanayParikh/WhatsItWorth">Chris Hilts &amp; Tanay Parikh</author>
   <content src="index.html"/>
   <access origin="*"/>
   <allow-intent href="http://*/*"/>
