@@ -30,7 +30,7 @@ export class HomePage {
         window.localStorage.setItem('stock-data-exp',expDate.toString());
         console.log(expDate.toString());
         this.tempTest = this.getStockData();
-        this.initializeItems();     
+        this.initializeItems();
       }
       else{
         var date = new Date();
@@ -50,14 +50,14 @@ export class HomePage {
               this.tempTest = JSON.parse(window.localStorage.getItem('stock-data'));
               this.tempFix = true;
             }
-            
-            } 
-              
+
+            }
+
     }
     loader.dismiss();
     });
       }
-  
+
 
   platform : Platform;
   navController : NavController;
@@ -69,7 +69,7 @@ export class HomePage {
   tempFix: boolean = false;
 
   initializeItems() {
-    if((this.tempTest.length >1 && !this.tempFix)){
+    if((this.tempTest.length > 1 && !this.tempFix)){
       for(var i =0; i< this.tempTest.length ; i++){
         var stock = this.tempTest[i];
         stock.sector = this.getIconName(stock.sector);
@@ -107,27 +107,27 @@ export class HomePage {
           }
         });
       });
-
     }
+
     return tempArray;
-   //this.stocks = tempArray;
   }
 
   getItems(ev: any) {
-    this.search = (ev.target.value.length >= 3);
+    this.search = ev.target.value ? (ev.target.value.length >= 3) : false;
 
-    // Reset items back to all of the items
-    this.initializeItems();
+    if (this.search) {
+      // Reset items back to all of the items
+      this.initializeItems();
 
-    // set val to the value of the searchbar
-    let val = ev.target.value;
+      // set val to the value of the searchbar
+      let val = ev.target.value;
 
-    // if the value is an empty string don't filter the items
-    if (val && val.trim() != '') {
-      this.stocks = this.stocks.filter((item) => {
-        console.log()
-        return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
+      // if the value is an empty string don't filter the items
+      if (val && val.trim() != '') {
+        this.stocks = this.stocks.filter((item) => {
+          return (item.name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        })
+      }
     }
   }
 
@@ -163,6 +163,11 @@ export class HomePage {
     this.navCtrl.push(StockPage, {
       stock: stock
     });
+  }
+
+  clearStocks(event: any) {
+    this.searchQuery = '';
+    this.stocks = [{sector: "none", name:"", sym:"", exchange:""}];
   }
 }
 

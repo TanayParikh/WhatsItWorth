@@ -12,7 +12,7 @@
     Learn more about how affordable it is to start investing.
   </p>
 
-  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+  <ion-searchbar (ionInput)="getItems($event)" (ionCancel)="clearStocks($event)"></ion-searchbar>
 <ion-list>
   <button ion-item *ngFor="let stock of stocks" (click)="stockSelected(stock)">
     <ion-icon name="{{stock.sector}}" item-left></ion-icon>
