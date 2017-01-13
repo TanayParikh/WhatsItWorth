@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, LoadingController } from 'ionic-angular';
 
 import { get } from 'http';
 
@@ -13,15 +13,22 @@ export class StockPage {
   products: any[];
   product = {name: "", plural_name: "", category: "", price: 0, img: ""};
   productGenerated = {name: "", img_link:"", quantity:0};
-  constructor(public navCtrl: NavController, private navParams: NavParams) {
-    this.stock = navParams.data.stock;
+  constructor(public navCtrl: NavController,
+    private navParams: NavParams,
+    private loadingController: LoadingController) {
 
-    console.log(this.stock);
+      let loader = this.loadingController.create({
+        content: 'Fetching stock details.'
+      });
 
-    this.setProducts();
+      this.stock = navParams.data.stock;
+
+      loader.present().then(() => {
+        this.setProducts(loader);
+      });
   }
 
-  setProducts() {
+  setProducts(loader: any) {
     if(window.localStorage.getItem('products-exp-date')){
       var curDate = new Date();
       var expDate = new Date(window.localStorage.getItem('products-exp-date'));
@@ -45,9 +52,7 @@ export class StockPage {
       this.getAllProducts();
     }
 
-    
-    console.log("The products are:");
-    console.log(this.products);
+    loader.dismiss();
   }
 
   getStockInformation(stock){
@@ -76,6 +81,7 @@ export class StockPage {
 
         if (!price && stock.symbol.includes('.')) {
           stock.symbol = stock.symbol.replace('.', '-');
+          this.getStockInformation(stock);
         } else {
           this.displayComparison(price);
         }
