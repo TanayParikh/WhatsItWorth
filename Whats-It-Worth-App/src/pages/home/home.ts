@@ -64,8 +64,8 @@ export class HomePage {
   searchQuery: string = '';
   items: any;
   search: boolean = false;
-  stocks: any = [{sector: "none", name:"", sym:"", exchange:""}];
-  tempTest: any = [{sector: "none", name:"", sym:"", exchange:""}];
+  stocks: any = new Array();
+  tempTest: any = new Array();
   tempFix: boolean = false;
 
   initializeItems() {
@@ -167,7 +167,7 @@ export class HomePage {
 
   clearStocks(event: any) {
     this.searchQuery = '';
-    this.stocks = [{sector: "none", name:"", sym:"", exchange:""}];
+    this.stocks = new Array();
   }
 }
 
